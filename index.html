@@ -1,0 +1,2356 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="narrative">
+  <meta name="design-style" content="briefing">
+  <title>中小學數位與 AI 教學實務導覽｜政策、素養、課堂規範與教師成長</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Briefing style tokens */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+      --border-subtle: #c8c4b8;
+
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --on-secondary: #ffffff;
+      --secondary-tint: #ebf2f4;
+      --tertiary: #785008;
+      --tertiary-tint: #f5e6c4;
+      --error: #b42318;
+      --on-error: #ffffff;
+      --error-tint: #fdf2f0;
+
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* 2. Shared semantic, focus, scale, spacing, motion */
+      --positive: #2b6e52;
+      --positive-tint: #eef6f2;
+      --warning: #8f5300;
+      --warning-tint: #fef7e6;
+      --focus: #1f4e5f;
+
+      --font-headline: 'Noto Serif TC', 'Source Serif 4', serif;
+      --font-body: 'Noto Sans TC', 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Geist Mono', 'Noto Sans TC', monospace;
+
+      --display-size: clamp(2rem, 1.35rem + 2.5vw, 3.25rem);
+      --headline-size: clamp(1.45rem, 1.15rem + 1.3vw, 2.05rem);
+      --subhead-size: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
+      --body-size: clamp(1rem, 0.97rem + 0.16vw, 1.09375rem);
+      --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 0.25rem;
+
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --badge-radius: 2px;
+      --heading-tracking: -0.015em;
+      --label-tracking: 0.06em;
+
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.65;
+      scroll-behavior: smooth;
+    }
+    header { position: static !important; }
+    button, input, select, textarea { font-family: inherit; }
+
+    :focus-visible {
+      outline: 2.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-lg) var(--space-3xl);
+    }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      max-width: 1180px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Briefing Dossier Treatments */
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .dossier-bar-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .dossier-pill {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--badge-radius);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      letter-spacing: 0.03em;
+    }
+
+    .title {
+      font-family: var(--font-headline);
+      font-size: var(--display-size);
+      font-weight: 700;
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.18;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .standfirst {
+      font-family: var(--font-body);
+      font-size: var(--subhead-size);
+      font-weight: 500;
+      color: var(--secondary);
+      margin: var(--space-md) 0 0;
+      max-width: 68ch;
+      line-height: 1.55;
+    }
+
+    h2.section-heading {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 700;
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.22;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-sm);
+    }
+    h3.sub-heading {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--on-surface);
+      margin: 0 0 var(--space-sm);
+    }
+    p.prose {
+      margin: 0 0 var(--space-md);
+      max-width: 66ch;
+      color: var(--on-surface);
+    }
+    p.section-lead {
+      font-weight: 500;
+      color: var(--secondary);
+      margin: 0 0 var(--space-lg);
+      max-width: 68ch;
+    }
+
+    .figure-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+    .figure-card .value {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-variant-numeric: lining-nums tabular-nums;
+      font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+      line-height: 1.15;
+      color: var(--on-surface);
+      margin: var(--space-xs) 0;
+    }
+
+    .index-num {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--secondary);
+      background: var(--surface-container);
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--badge-radius);
+      display: inline-block;
+    }
+
+    .aside-box {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+    }
+
+    /* Quick-jump navigation strip */
+    .toc-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin: var(--space-lg) 0 var(--space-xl);
+      padding: var(--space-sm) 0;
+      border-top: 1px solid var(--outline-variant);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .toc-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container-low);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .toc-link:hover {
+      background: var(--surface-container);
+      border-color: var(--outline);
+    }
+    .toc-link .toc-idx {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    /* Hero summary metrics */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-2xl);
+    }
+    .kpi-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      display: block;
+    }
+    .kpi-desc {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      margin: var(--space-xs) 0 0;
+      line-height: 1.45;
+    }
+
+    /* Narrative sections */
+    .narrative-section {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-md);
+    }
+
+    /* Asymmetric 2-col grids */
+    .split-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .split-layout--balanced {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .split-layout--sidebar {
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    }
+
+    /* Interactive Buttons & Controls */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border-subtle);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .btn:hover:not(:disabled) {
+      background: var(--surface-container);
+    }
+    .btn:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+    .btn:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--secondary);
+      border-color: var(--secondary);
+    }
+    .btn-active {
+      background: var(--secondary);
+      color: var(--on-secondary);
+      border-color: var(--secondary);
+    }
+    .btn-active:hover:not(:disabled) {
+      background: var(--secondary);
+      color: var(--on-secondary);
+    }
+    .btn-warning-arm {
+      background: var(--error-tint);
+      color: var(--error);
+      border-color: var(--error);
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: end;
+      margin-bottom: var(--space-md);
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      min-width: 180px;
+      flex: 1 1 200px;
+    }
+    .field-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--on-surface);
+    }
+    .field-select, .field-input {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      padding-right: var(--space-xl);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: 0.9375rem;
+    }
+    .field-input {
+      padding-right: var(--space-md);
+    }
+
+    /* Timeline Buttons */
+    .timeline-rail {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .timeline-node {
+      text-align: left;
+      padding: var(--space-md);
+      min-height: 44px;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+    }
+    .timeline-node:hover {
+      background: var(--surface-container);
+    }
+    .timeline-node.is-selected {
+      background: var(--surface-container-low);
+      box-shadow: inset 0 4px 0 var(--primary-container), 0 0 0 1.5px var(--outline);
+    }
+    .timeline-year {
+      font-family: var(--font-label);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+    .timeline-title {
+      font-family: var(--font-headline);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--on-surface);
+    }
+
+    /* Data Tables */
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+    }
+    table.dossier-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9375rem;
+    }
+    table.dossier-table th {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--on-surface-variant);
+      background: var(--surface-container);
+      border-bottom: var(--section-rule);
+      padding: var(--space-sm) var(--space-md);
+      white-space: nowrap;
+    }
+    table.dossier-table td {
+      padding: var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: top;
+    }
+    table.dossier-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Tags & Status Pills */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: 0.18rem 0.5rem;
+      border-radius: var(--rounded);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .tag-gold {
+      background: var(--tertiary-tint);
+      color: var(--tertiary);
+    }
+    .tag-slate {
+      background: var(--secondary-tint);
+      color: var(--secondary);
+    }
+    .tag-green {
+      background: var(--positive-tint);
+      color: var(--positive);
+    }
+    .tag-yellow {
+      background: var(--warning-tint);
+      color: var(--warning);
+    }
+    .tag-red {
+      background: var(--error-tint);
+      color: var(--error);
+    }
+
+    /* Competency Matrix Grid */
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .matrix-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .level-block {
+      padding: var(--space-sm) var(--space-md);
+      background: var(--background);
+      border-left: 3px solid var(--border-subtle);
+      border-radius: 0 var(--rounded) var(--rounded) 0;
+    }
+    .level-block.is-lvl-1 { border-left-color: var(--data-1); }
+    .level-block.is-lvl-2 { border-left-color: var(--data-2); }
+    .level-block.is-lvl-3 { border-left-color: var(--data-3); }
+    .level-block-title {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: var(--space-xs);
+      display: block;
+    }
+    .level-block p {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    /* Traffic Light Zone Cards */
+    .zone-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .zone-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      border-top: 4px solid var(--border-subtle);
+    }
+    .zone-card.zone-green { border-top-color: var(--positive); }
+    .zone-card.zone-yellow { border-top-color: var(--warning); }
+    .zone-card.zone-red { border-top-color: var(--error); }
+    .zone-list {
+      margin: var(--space-sm) 0 0;
+      padding-left: 1.15rem;
+      font-size: 0.92rem;
+    }
+    .zone-list li {
+      margin-bottom: var(--space-xs);
+    }
+
+    /* Simulator Box */
+    .sim-box {
+      background: var(--surface-container-low);
+      border: 1.5px solid var(--outline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+    }
+    .sim-scenario-prompt {
+      background: var(--surface-container);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      margin: var(--space-md) 0;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .sim-feedback {
+      margin-top: var(--space-md);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      border-left: 4px solid var(--secondary);
+      background: var(--background);
+    }
+    .sim-feedback.is-correct {
+      border-left-color: var(--positive);
+      background: var(--positive-tint);
+    }
+    .sim-feedback.is-wrong {
+      border-left-color: var(--error);
+      background: var(--error-tint);
+    }
+
+    /* Prompt Output Box */
+    .prompt-output {
+      background: var(--surface-container);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      color: var(--on-surface);
+    }
+
+    /* Risk Cards */
+    .risk-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .risk-tab-btn {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      text-align: left;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .risk-tab-btn:hover {
+      background: var(--surface-container);
+    }
+    .risk-tab-btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .risk-tab-btn.is-active .risk-code {
+      color: var(--primary-container);
+    }
+    .risk-code {
+      font-family: var(--font-label);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+    .risk-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    /* Checklist rows */
+    .checklist-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      cursor: pointer;
+      min-height: 44px;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .check-item:hover {
+      background: var(--surface-container);
+    }
+    .check-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--secondary);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .check-item-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .check-item-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--on-surface);
+    }
+    .check-item-desc {
+      font-size: 0.85rem;
+      color: var(--on-surface-variant);
+    }
+    .check-item.is-checked {
+      background: var(--positive-tint);
+      border-color: var(--positive);
+    }
+
+    /* Chart Container */
+    .chart-box {
+      position: relative;
+      width: 100%;
+      min-height: 280px;
+      height: 280px;
+    }
+
+    /* Collapsible details */
+    details.dossier-details {
+      background: var(--surface-container);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: var(--space-sm) var(--space-md);
+      margin-top: var(--space-md);
+      border-radius: var(--rounded);
+    }
+    details.dossier-details summary {
+      cursor: pointer;
+      font-weight: 600;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--secondary);
+    }
+    details.dossier-details .details-body {
+      padding: var(--space-sm) 0 var(--space-md);
+      font-size: 0.93rem;
+    }
+
+    .svg-diagram {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .status-banner {
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-top: var(--space-sm);
+      background: var(--secondary-tint);
+      color: var(--secondary);
+      display: none;
+    }
+    .status-banner.is-visible {
+      display: block;
+    }
+
+    /* Reveal animation */
+    .reveal-block {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out);
+    }
+
+    @media (max-width: 860px) {
+      .split-layout,
+      .split-layout--balanced,
+      .split-layout--sidebar {
+        grid-template-columns: 1fr;
+      }
+      .zone-grid {
+        grid-template-columns: 1fr;
+      }
+      .timeline-rail {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        padding: var(--space-md) var(--space-md) var(--space-2xl);
+      }
+      .page-grid {
+        grid-template-columns: 1fr;
+      }
+      .timeline-rail {
+        grid-template-columns: 1fr;
+      }
+      .figure-card {
+        padding: var(--space-md);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <!-- MASTHEAD / HERO -->
+    <header>
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">教學導覽 BRIEFING</span>
+          <span class="dossier-meta">中小學數位與 AI 教學實務綜合指引 · 2022–2026</span>
+        </div>
+        <span class="dossier-meta">以人為本 · 慢 AI · 認知防禦</span>
+      </div>
+
+      <h1 class="title">人為本、慢 AI、深學習：中小學數位與 AI 教學實務導覽</h1>
+      <p class="standfirst">
+        彙整《115 年中小學教師數位與 AI 教學指引》、《教育部中小學數位教學指引 3.0 版》、國小與國高中生成式 AI 學習手冊、數發部《2025 公部門 AI 應用參考手冊》及地方行政減量與教師實務手冊，建構從政策脈絡、師生 AI 素養、課堂紅黃綠燈規範到專業成長的完整實踐藍圖。
+      </p>
+
+      <nav class="toc-strip" aria-label="章節快速導覽">
+        <a class="toc-link" href="#policy"><span class="toc-idx">01</span> 政策趨勢與 AI 界定</a>
+        <a class="toc-link" href="#literacy"><span class="toc-idx">02</span> 師生 AI 素養框架</a>
+        <a class="toc-link" href="#traffic-light"><span class="toc-idx">03</span> 課堂紅黃綠燈規範</a>
+        <a class="toc-link" href="#slow-ai"><span class="toc-idx">04</span> 慢 AI 與 AIPACK 設計</a>
+        <a class="toc-link" href="#risks"><span class="toc-idx">05</span> 七大風險與資安防護</a>
+        <a class="toc-link" href="#growth"><span class="toc-idx">06</span> 教師專業成長檢核</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- KPI OVERVIEW -->
+      <section aria-label="核心導覽指標">
+        <div class="kpi-grid">
+          <div class="figure-card">
+            <span class="kpi-label">核心協作迴圈</span>
+            <div class="value">人 － AI － 人</div>
+            <p class="kpi-desc">AI 是輔助工具，「人」始終是主體；在協作中必須回到人進行思考、判斷、決策與問責。</p>
+          </div>
+          <div class="figure-card">
+            <span class="kpi-label">素養螺旋矩陣</span>
+            <div class="value">4 面向 × 3 層級</div>
+            <p class="kpi-desc">師生皆從「取得理解 → 深化應用 → 創造轉型」循序漸進，避免認知卸載與學習外包。</p>
+          </div>
+          <div class="figure-card">
+            <span class="kpi-label">螢幕注視原則</span>
+            <div class="value">≤ 1/2 節課</div>
+            <p class="kpi-desc">國中小數位教學以每節課注視螢幕二分之一時間為原則，兼顧身心發展與真實人際互動。</p>
+          </div>
+          <div class="figure-card">
+            <span class="kpi-label">風險與法遵防線</span>
+            <div class="value">7 風險 × 7 原則</div>
+            <p class="kpi-desc">對應 WISE「思、辨、安、人」與《人工智慧基本法》七大原則，落實個資與媒體識讀防護。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 01: POLICY & TRENDS -->
+      <section id="policy" class="narrative-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">01 趨勢政策</span>
+            <span class="dossier-meta">POLICY &amp; TAXONOMY · 2019–2026</span>
+          </div>
+          <span class="dossier-meta">國際標竿與我國指引演進</span>
+        </div>
+
+        <h2 class="section-heading">從數位平權到 AI 代理人治理：全球與我國教育政策四階段演進</h2>
+        <p class="section-lead">
+          面對生成式 AI（GenAI）與人工智慧代理人（AI Agent）迅速普及，教育現場的重心已從「如何操作科技」，轉向「如何守護學生思考主體性、防範學習外包與建立安全治理」。
+        </p>
+
+        <div class="timeline-rail" role="tablist" aria-label="我國數位與 AI 教學指引演進時間軸">
+          <button type="button" class="timeline-node is-selected" data-year-idx="0" onclick="selectPolicyYear(0)">
+            <span class="timeline-year">111 年（2022）</span>
+            <span class="timeline-title">數位教學指引 1.0</span>
+          </button>
+          <button type="button" class="timeline-node" data-year-idx="1" onclick="selectPolicyYear(1)">
+            <span class="timeline-year">112 年（2023）</span>
+            <span class="timeline-title">數位教學指引 2.0</span>
+          </button>
+          <button type="button" class="timeline-node" data-year-idx="2" onclick="selectPolicyYear(2)">
+            <span class="timeline-year">113 年（2024）</span>
+            <span class="timeline-title">指引 3.0 × 生態支持</span>
+          </button>
+          <button type="button" class="timeline-node" data-year-idx="3" onclick="selectPolicyYear(3)">
+            <span class="timeline-year">114–115 年（2025–2026）</span>
+            <span class="timeline-title">115 AI 指引 × 法遵實務</span>
+          </button>
+        </div>
+
+        <div id="policy-detail-card" class="figure-card" style="margin-bottom: var(--space-lg);">
+          <!-- Populated dynamically -->
+        </div>
+
+        <div class="split-layout">
+          <div class="figure-card">
+            <h3 class="sub-heading">人工智慧類別、模型與教育型 AI 的實徵差異</h3>
+            <p class="prose" style="font-size: 0.94rem;">
+              依數發部《2025 公部門 AI 應用參考手冊》與教育部《115 年指引》，<strong>模型（Model）</strong>是透過分析大量資料建立起來的數學公式，用於預測、分類或生成。在教學場域必須區分工具特性，優先選用具教學鷹架與資安防護之教育型 AI。
+            </p>
+            <div class="table-wrap">
+              <table class="dossier-table">
+                <thead>
+                  <tr>
+                    <th>比較維度</th>
+                    <th>通用型生成式 AI</th>
+                    <th>教育型 AI（如因材網 e 度）</th>
+                    <th>人工智慧代理人（AI Agent）</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>主要運作機制</strong></td>
+                    <td>依提示詞（Prompt）直接生成文字、圖像、語音、影片或多模態內容。</td>
+                    <td>採取「慢 AI」原則，結合學科領域知識與蘇格拉底提問法進行對話導學。</td>
+                    <td>可自主拆解複雜任務、分析文本難度、規劃流程與檢核學習步驟。</td>
+                  </tr>
+                  <tr>
+                    <td><strong>實徵成效與價值</strong></td>
+                    <td>大幅降低教師備課與行政負擔（如草稿產出、題型設計）。</td>
+                    <td>實徵研究顯示更能促進深度理解、適性化回饋並顯著提升學習成效。</td>
+                    <td>協助教師實踐 AIPACK 流程規劃與差異化任務拆解，減輕重複行政事務。</td>
+                  </tr>
+                  <tr>
+                    <td><strong>教學警戒與邊界</strong></td>
+                    <td>易直接給答案導致「認知卸載」，且公開服務存在資安與幻覺風險。</td>
+                    <td>仍須回到課本與教師說明確認概念，不取代同儕互動與動手實作。</td>
+                    <td>絕不可取代教師的學習判斷、情感支持、評量決定與學生思考歷程。</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <aside class="aside-box">
+            <span class="index-num" style="margin-bottom: var(--space-sm);">國際政策對照</span>
+            <h3 class="sub-heading">全球教育科技與 AI 治理座標</h3>
+            <ul class="zone-list" style="padding-left: 1.1rem; margin-top: 0;">
+              <li><strong>聯合國教科文組織（UNESCO）：</strong>2023 年發布《生成式 AI 應用在教育與研究指引》，2024 年提出《教師與學生 AI 素養架構》，主張以人本思維讓教師成為「導學者」。</li>
+              <li><strong>歐盟（EU）：</strong>2022 年發布教師應對假訊息與數位素養指南；歐洲議會通過並於 2026 年生效之《歐盟人工智慧法案》強化高風險教育系統規範。</li>
+              <li><strong>新加坡：</strong>推動「2030 教育科技總藍圖」（EdTech Masterplan 2030），聚焦個人化學習與 21 世紀核心素養。</li>
+              <li><strong>美國與加拿大、愛沙尼亞：</strong>美國發布《促進數位平等報告書》，安大略省規定中學生須修畢線上學分，愛沙尼亞推動 2021–2035 數位治理生態系。</li>
+            </ul>
+            <!-- Human-AI-Human Loop SVG Schematic -->
+            <svg class="svg-diagram" viewBox="0 0 360 150" aria-hidden="true" style="margin-top: var(--space-md);">
+              <rect x="10" y="28" width="96" height="68" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+              <text x="58" y="55" text-anchor="middle" font-size="13" font-weight="700" fill="var(--on-surface)">人（主體）</text>
+              <text x="58" y="75" text-anchor="middle" font-size="10.5" fill="var(--secondary)">目標設定・提問</text>
+
+              <rect x="132" y="28" width="96" height="68" rx="6" fill="var(--primary-container)" stroke="var(--outline)" stroke-width="1.5"/>
+              <text x="180" y="55" text-anchor="middle" font-size="13" font-weight="700" fill="var(--on-primary-container)">AI（工具）</text>
+              <text x="180" y="75" text-anchor="middle" font-size="10.5" fill="var(--on-primary-container)">輔助分析・鷹架</text>
+
+              <rect x="254" y="28" width="96" height="68" rx="6" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="1.5"/>
+              <text x="302" y="55" text-anchor="middle" font-size="13" font-weight="700" fill="var(--on-surface)">人（把關）</text>
+              <text x="302" y="75" text-anchor="middle" font-size="10.5" fill="var(--positive)">查證・決策・負責</text>
+
+              <path d="M106 62 L128 62" stroke="var(--outline)" stroke-width="1.5" fill="none"/>
+              <polygon points="126,58 132,62 126,66" fill="var(--outline)"/>
+              <path d="M228 62 L250 62" stroke="var(--outline)" stroke-width="1.5" fill="none"/>
+              <polygon points="248,58 254,62 248,66" fill="var(--outline)"/>
+
+              <path d="M302 96 C302 132, 58 132, 58 100" stroke="var(--secondary)" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+              <polygon points="54,102 58,96 62,102" fill="var(--secondary)"/>
+              <text x="180" y="138" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--secondary)">「人－AI－人」持續修正與反思迴圈</text>
+            </svg>
+          </aside>
+        </div>
+      </section>
+
+      <!-- SECTION 02: AI LITERACY FRAMEWORKS -->
+      <section id="literacy" class="narrative-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">02 素養框架</span>
+            <span class="dossier-meta">COMPETENCY MATRIX · 4 DIMENSIONS × 3 LEVELS</span>
+          </div>
+          <span class="dossier-meta">教師與學生 AI 素養螺旋發展</span>
+        </div>
+
+        <h2 class="section-heading">師生 AI 素養 4×3 螺旋框架：培養不卸載思考的學習主體</h2>
+        <p class="section-lead">
+          教師與學生 AI 素養皆分為四大核心面向，並由「取得理解」、「深化應用」到「創造轉型」三層級循序螺旋上升。切換下方檢視條件，探索師生在各階段的具體能力內涵與分齡實踐重點。
+        </p>
+
+        <div class="control-row" role="group" aria-label="素養框架篩選控制">
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+            <button type="button" class="btn btn-active" id="btn-role-teacher" onclick="setLiteracyRole('teacher')">教師 AI 素養框架</button>
+            <button type="button" class="btn" id="btn-role-student" onclick="setLiteracyRole('student')">學生 AI 素養框架（表 2-2）</button>
+          </div>
+          <div class="field-group" style="max-width: 260px; flex: 0 1 260px;">
+            <label class="field-label" for="literacy-level-select">聚焦發展層級</label>
+            <select id="literacy-level-select" class="field-select" onchange="setLiteracyLevel(this.value)">
+              <option value="all">顯示全部三層級（螺旋全景）</option>
+              <option value="1">層級一：取得理解（基礎辨識與監督）</option>
+              <option value="2">層級二：深化應用（AIPACK 與情境工程）</option>
+              <option value="3">層級三：創造轉型（跨域創新與系統共創）</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="literacy-matrix-container" class="matrix-grid">
+          <!-- Populated dynamically -->
+        </div>
+
+        <div class="split-layout--balanced split-layout" style="margin-top: var(--space-lg);">
+          <div class="figure-card">
+            <span class="tag tag-slate">國小學習應用手冊《我和 AI 一起學》</span>
+            <h3 class="sub-heading" style="margin-top: var(--space-sm);">生活化比喻與基礎自主規範</h3>
+            <p class="prose" style="font-size: 0.92rem; margin-bottom: 0;">
+              針對國小學童，強調以生活例子理解科學與語言概念（如請 e 度用小學生懂的比喻解釋二氧化碳與汽水），要求筆記必須「用自己的話完成」，嚴守不輸入姓名照片與不直接照抄的紅線，培養對 AI 世界的健康好奇心。
+            </p>
+          </div>
+          <div class="figure-card">
+            <span class="tag tag-gold">國高中學習應用手冊《駕馭 AI，洞察未來》</span>
+            <h3 class="sub-heading" style="margin-top: var(--space-sm);">情境工程、學術誠信與思辨公民</h3>
+            <p class="prose" style="font-size: 0.92rem; margin-bottom: 0;">
+              引導國高中生展現「情境工程（Context Engineering）」能力，主動提供背景脈絡與限制條件進行多輪探索；練習將 AI 作為延伸探究提問者與跨學科專題夥伴，並能標註「AI 協作生成」、進行資料交叉驗證與倫理反思。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 03: CLASSROOM TRAFFIC LIGHT RULES -->
+      <section id="traffic-light" class="narrative-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">03 課堂規範</span>
+            <span class="dossier-meta">TRAFFIC-LIGHT GOVERNANCE · 紅黃綠燈管理</span>
+          </div>
+          <span class="dossier-meta">防範認知卸載與虛假精熟</span>
+        </div>
+
+        <h2 class="section-heading">課堂 AI 紅黃綠燈分級規範：劃清輔助與代勞的界線</h2>
+        <p class="section-lead">
+          導入課堂前，教師須先釐清工具類型、學生年齡適切性、資料隱私與學習目標，並與學生透過「觀點取替」共同討論班級公約，讓 AI 成為輔助理解與促進反思的鷹架。
+        </p>
+
+        <div class="zone-grid">
+          <div class="zone-card zone-green">
+            <span class="tag tag-green">綠燈區：鼓勵自主探究</span>
+            <h3 class="sub-heading" style="margin-top: var(--space-sm);">提問釐清・除錯・反思</h3>
+            <ul class="zone-list">
+              <li>主動向 AI 提問以釐清專有名詞，並回答 AI 提出的蘇格拉底式追問。</li>
+              <li>提出自己的實驗規劃或錯誤選項，請 AI 協助診斷可能盲點與除錯方向。</li>
+              <li>請 AI 依單元主題產出延伸探究問題或類似題，自我檢測概念理解程度。</li>
+              <li>展示與 AI 互動的提問歷程摘要，說明 AI 如何刺激自身思考轉變。</li>
+            </ul>
+          </div>
+
+          <div class="zone-card zone-yellow">
+            <span class="tag tag-yellow">黃燈區：條件式輔助</span>
+            <h3 class="sub-heading" style="margin-top: var(--space-sm);">須標註協作・經人工驗證</h3>
+            <ul class="zone-list">
+              <li>請 AI 協助查詢概念或提供「提示」，但學習筆記與訂正必須用自己的話寫出。</li>
+              <li>協助彙整小組討論或檢核發表結構，須明確標註<strong>「AI 協作生成」</strong>並修改潤飾。</li>
+              <li>AI 生成的解析、類題或結論整理，必須回到課本例題或教師說明進行查核。</li>
+              <li>發表成果時，學生必須能不看稿口頭說明，證明知識已真正內化。</li>
+            </ul>
+          </div>
+
+          <div class="zone-card zone-red">
+            <span class="tag tag-red">紅燈區：嚴格禁止行為</span>
+            <h3 class="sub-heading" style="margin-top: var(--space-sm);">防範認知卸載與虛假精熟</h3>
+            <ul class="zone-list">
+              <li><strong>直接複製：</strong>將 AI 生成文本、翻譯或發表稿直接貼上並宣稱為個人原創。</li>
+              <li><strong>洩漏隱私：</strong>將自己、同學或教師的姓名、照片及機敏個資輸入公開 AI 系統。</li>
+              <li><strong>答案外包：</strong>未經思考直接索取測驗解答或實驗結論，放棄自身推理歷程。</li>
+              <li><strong>盲目信任：</strong>未經事實查核即散布 AI 產出的錯誤數值、虛構知識或偏見內容。</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Interactive Traffic Light Simulator -->
+        <div class="sim-box">
+          <div class="dossier-bar" style="margin-bottom: var(--space-sm);">
+            <div class="dossier-bar-left">
+              <span class="index-num">互動實測</span>
+              <span class="dossier-meta">課堂情境紅黃綠燈判讀器（取材自指引真實教案）</span>
+            </div>
+            <span id="sim-progress-label" class="dossier-meta">題目 1 / 6</span>
+          </div>
+
+          <div class="control-row" style="margin-bottom: var(--space-sm);">
+            <div class="field-group" style="max-width: 300px;">
+              <label class="field-label" for="sim-subject-select">選擇學科與年段情境</label>
+              <select id="sim-subject-select" class="field-select" onchange="jumpToScenario(this.value)">
+                <option value="0">情境 01｜國小自然：檢驗二氧化碳實驗</option>
+                <option value="1">情境 02｜國中英語：Bangkok 閱讀課文</option>
+                <option value="2">情境 03｜國中數學：三心診斷測驗訂正</option>
+                <option value="3">情境 04｜高中電機：電感器串並聯計算</option>
+                <option value="4">情境 05｜班級日常：作業與個資輸入邊界</option>
+                <option value="5">情境 06｜分組報告：小組討論彙整與發表</option>
+              </select>
+            </div>
+            <div style="display: flex; gap: var(--space-sm);">
+              <button type="button" class="btn" onclick="prevScenario()">上一題</button>
+              <button type="button" class="btn" onclick="nextScenario()">下一題</button>
+            </div>
+          </div>
+
+          <div id="sim-scenario-card">
+            <!-- Populated by JS -->
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-md);">
+            <button type="button" class="btn" onclick="judgeScenario('green')">判定為「綠燈區」（鼓勵探索）</button>
+            <button type="button" class="btn" onclick="judgeScenario('yellow')">判定為「黃燈區」（條件協作＋查核）</button>
+            <button type="button" class="btn" onclick="judgeScenario('red')">判定為「紅燈區」（嚴格禁止）</button>
+          </div>
+
+          <div id="sim-feedback-box" class="sim-feedback" style="display: none;"></div>
+
+          <div class="aside-box" style="margin-top: var(--space-md); padding: var(--space-sm) var(--space-md);">
+            <strong>課堂「觀點取替」公約討論引導：</strong>
+            <span id="sim-perspective-prompt" style="font-size: 0.92rem;">「如果我們把報告與推論全交給 AI 寫，我們最後會失去什麼能力？」</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 04: SLOW AI & AIPACK INSTRUCTIONAL DESIGN -->
+      <section id="slow-ai" class="narrative-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">04 教學設計</span>
+            <span class="dossier-meta">SLOW AI × AIPACK × PROMPT DNA</span>
+          </div>
+          <span class="dossier-meta">從四學模式到精準指令架構</span>
+        </div>
+
+        <h2 class="section-heading">慢 AI 原則與 AIPACK 整合：讓教師成為學習設計師</h2>
+        <p class="section-lead">
+          教育型 AI 強調「慢 AI（Slow AI）」原則——不急於提供快速標準答案，而是結合<strong>人工智慧知識（AIK）</strong>、<strong>教學知識（PK）</strong>與<strong>學科內容知識（CK）</strong>構成的 AIPACK 專業架構，透過蘇格拉底式提問支持「四學」自主學習。
+        </p>
+
+        <div class="split-layout">
+          <!-- AIPACK Venn Diagram SVG -->
+          <div class="figure-card">
+            <h3 class="sub-heading">AIPACK 教師知識整合架構圖（從 TPACK 到 AIPACK）</h3>
+            <p class="prose" style="font-size: 0.9rem; color: var(--on-surface-variant);">
+              參考 Celik（2022）Intelligent-TPACK 與教育部 AIPACK 計畫，教師整合 AIK、PK 與 CK，運用 AI 數據診斷學習斷點並設計具人際互動與社會情緒學習（SEL）的課程。
+            </p>
+            <svg class="svg-diagram" viewBox="0 0 420 290" aria-hidden="true">
+              <!-- Top Circle: AIK -->
+              <circle cx="210" cy="100" r="82" fill="var(--primary-container)" fill-opacity="0.28" stroke="var(--tertiary)" stroke-width="1.5"/>
+              <!-- Bottom Left: PK -->
+              <circle cx="148" cy="192" r="82" fill="var(--secondary)" fill-opacity="0.18" stroke="var(--secondary)" stroke-width="1.5"/>
+              <!-- Bottom Right: CK -->
+              <circle cx="272" cy="192" r="82" fill="var(--data-3)" fill-opacity="0.18" stroke="var(--data-3)" stroke-width="1.5"/>
+
+              <!-- Main labels -->
+              <text x="210" y="54" text-anchor="middle" font-size="13" font-weight="700" fill="var(--tertiary)">AIK 人工智慧知識</text>
+              <text x="210" y="70" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">原理・限制・倫理・提示詞</text>
+
+              <text x="98" y="218" text-anchor="middle" font-size="13" font-weight="700" fill="var(--secondary)">PK 教學知識</text>
+              <text x="98" y="234" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">四學・差異化・評量</text>
+
+              <text x="322" y="218" text-anchor="middle" font-size="13" font-weight="700" fill="var(--data-3)">CK 學科知識</text>
+              <text x="322" y="234" text-anchor="middle" font-size="10" fill="var(--on-surface-variant)">領域核心概念・探究邏輯</text>
+
+              <!-- Intersections -->
+              <text x="158" y="138" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--on-surface)">AIPK</text>
+              <text x="262" y="138" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--on-surface)">AICK</text>
+              <text x="210" y="216" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--on-surface)">PCK</text>
+
+              <!-- Center AIPACK -->
+              <rect x="172" y="150" width="76" height="28" rx="4" fill="var(--primary)"/>
+              <text x="210" y="169" text-anchor="middle" font-size="13" font-weight="700" fill="var(--on-primary)">AIPACK</text>
+            </svg>
+          </div>
+
+          <!-- Teaching Phase Explorer -->
+          <div class="figure-card">
+            <h3 class="sub-heading">備課・教學（四學）・評量三階段實踐</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-md);">
+              <button type="button" class="btn btn-active" id="phase-btn-0" onclick="selectTeachingPhase(0)">01 課前備課</button>
+              <button type="button" class="btn" id="phase-btn-1" onclick="selectTeachingPhase(1)">02 課中四學</button>
+              <button type="button" class="btn" id="phase-btn-2" onclick="selectTeachingPhase(2)">03 評量與行政減量</button>
+            </div>
+            <div id="teaching-phase-panel">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Prompt DNA Interactive Builder -->
+        <div class="sim-box" style="margin-top: var(--space-lg);">
+          <div class="dossier-bar" style="margin-bottom: var(--space-sm);">
+            <div class="dossier-bar-left">
+              <span class="index-num">提示語工程</span>
+              <span class="dossier-meta">PROMPT DNA 五大核心要素組裝器（整合新北減量手冊 × 課堂慢 AI 設計）</span>
+            </div>
+          </div>
+          <p class="prose" style="font-size: 0.92rem; margin-bottom: var(--space-md);">
+            優質提示語猶如 DNA 雙螺旋結構，需包含<strong>角色設定</strong>、<strong>任務目標</strong>、<strong>班級／年段脈絡</strong>、<strong>慢 AI 限制條件</strong>與<strong>輸出格式</strong>。選擇下列教學或行政場景，檢視即用型提示詞範本：
+          </p>
+
+          <div class="control-row">
+            <div class="field-group">
+              <label class="field-label" for="prompt-template-select">1. 教學／行政任務場景</label>
+              <select id="prompt-template-select" class="field-select" onchange="updatePromptBuilder()">
+                <option value="group_role">小學自然：分組合作四角色任務（北極星／環保）</option>
+                <option value="rubrics">課堂多元評量：Rubrics 評分規準設計（人體骨骼）</option>
+                <option value="slow_tutor">教育型慢 AI 導學：錯題診斷與不給答案引導</option>
+                <option value="diff_reading">差異化備課：英語／閱讀課文分層與難度調適</option>
+                <option value="admin_rag">行政與共備增幅：學力檢測報告與 RAG 知識庫分析</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="prompt-grade-select">2. 適用年段／對象脈絡</label>
+              <select id="prompt-grade-select" class="field-select" onchange="updatePromptBuilder()">
+                <option value="elem">國小中年級／高年級（白話生活比喻）</option>
+                <option value="junior">國中階段（概念連結與結構拆解）</option>
+                <option value="senior">高中／高職階段（專題探究與數值驗證）</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="prompt-guardrail-select">3. 慢 AI 限制條件</label>
+              <select id="prompt-guardrail-select" class="field-select" onchange="updatePromptBuilder()">
+                <option value="socratic">蘇格拉底提問：絕不直接給出最終答案</option>
+                <option value="check">教師檢核機制：每題標註學習目標供教師審查</option>
+                <option value="step">結構化表格：輸出表格與具體執行步驟</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="prompt-dna-tags" style="display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-sm);"></div>
+          <div id="prompt-output-box" class="prompt-output"></div>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); margin-top: var(--space-md);">
+            <button type="button" class="btn btn-primary" onclick="copyGeneratedPrompt()">複製提示詞範例</button>
+            <span id="prompt-copy-status" class="dossier-meta" aria-live="polite"></span>
+          </div>
+
+          <details class="dossier-details">
+            <summary>延伸閱讀：地方行政減量與「多元評量」實務提醒</summary>
+            <div class="details-body">
+              <p class="prose" style="font-size: 0.9rem;">
+                <strong>行政減量增幅器（新北市手冊）：</strong>運用 Suno 生成無版權疑慮之活動配樂、以 Gemini Canvas 將靜態校史報告轉化為互動網頁與新聞稿、並結合 NotebookLM 與 RAG 技術上傳專屬法規或縣市學力檢測題本（如五年級國語文題本），快速獲得貼合校本脈絡的教學調整建議。
+              </p>
+              <p class="prose" style="font-size: 0.9rem; margin-bottom: 0;">
+                <strong>審慎看待 AI 偵測工具（指引 3.0）：</strong>使用「生成式 AI 內容偵測工具」常存在誤判爭議，教師應設計口頭發表、歷程反思（「原本以為…後來發現…」）、Rubrics 多維度評量表與實作探究，以多元評量取代單一文本偵測。
+              </p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- SECTION 05: 7 AI RISKS & MEDIA LITERACY / CYBERSECURITY -->
+      <section id="risks" class="narrative-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">05 風險防護</span>
+            <span class="dossier-meta">7 RISKS × WISE PRINCIPLES × CYBERSECURITY</span>
+          </div>
+          <span class="dossier-meta">數位素養・媒體識讀・資安防線</span>
+        </div>
+
+        <h2 class="section-heading">AI 時代七大風險與防護原則：從媒體識讀到公部門資安治理</h2>
+        <p class="section-lead">
+          依據《115 年指引》第六章，課程設計應掌握<strong>「思、辨、安、人」WISE 原則</strong>，針對七大常見風險教導學生對應口訣；同時結合數發部《公部門 AI 應用參考手冊》與《人工智慧基本法》七原則，築起完整資安與倫理防線。
+        </p>
+
+        <!-- 7-Risk Interactive Selector -->
+        <div class="risk-selector-grid" role="tablist" aria-label="七大 AI 風險選擇器">
+          <button type="button" class="risk-tab-btn is-active" data-risk-idx="0" onclick="selectRisk(0)">
+            <span class="risk-code">01 · STEP</span>
+            <span class="risk-name">錯假訊息吸收</span>
+          </button>
+          <button type="button" class="risk-tab-btn" data-risk-idx="1" onclick="selectRisk(1)">
+            <span class="risk-code">02 · THINK</span>
+            <span class="risk-name">認知卸載</span>
+          </button>
+          <button type="button" class="risk-tab-btn" data-risk-idx="2" onclick="selectRisk(2)">
+            <span class="risk-code">03 · FACT</span>
+            <span class="risk-name">AI 幻覺與偏見</span>
+          </button>
+          <button type="button" class="risk-tab-btn" data-risk-idx="3" onclick="selectRisk(3)">
+            <span class="risk-code">04 · OPEN</span>
+            <span class="risk-name">資訊同溫層</span>
+          </button>
+          <button type="button" class="risk-tab-btn" data-risk-idx="4" onclick="selectRisk(4)">
+            <span class="risk-code">05 · SAFE</span>
+            <span class="risk-name">隱私與資安風險</span>
+          </button>
+          <button type="button" class="risk-tab-btn" data-risk-idx="5" onclick="selectRisk(5)">
+            <span class="risk-code">06 · HUMAN</span>
+            <span class="risk-name">教育工具化</span>
+          </button>
+          <button type="button" class="risk-tab-btn" data-risk-idx="6" onclick="selectRisk(6)">
+            <span class="risk-code">07 · CARE</span>
+            <span class="risk-name">情感依附錯位</span>
+          </button>
+        </div>
+
+        <div id="risk-detail-panel" class="figure-card" style="margin-bottom: var(--space-lg);">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="split-layout--balanced split-layout">
+          <div class="figure-card">
+            <span class="index-num" style="margin-bottom: var(--space-sm);">數發部 2025 資安指引</span>
+            <h3 class="sub-heading">AI 導入與生成式服務九大資安警戒</h3>
+            <ul class="zone-list" style="margin-top: 0;">
+              <li><strong>提示注入威脅（Prompt Injection）：</strong>惡意提示詞誘使系統繞過安全限制或輸出有害資訊。</li>
+              <li><strong>資料污染與假連結：</strong>私人資料庫或網站搜尋遭上傳可疑資料，使聊天機器人回傳詐騙連結。</li>
+              <li><strong>機敏個資外洩：</strong>輸入個人訊息、未去識別化學生資料或透過外部 API 傳輸暴露。</li>
+              <li><strong>幻覺與惡意套件風險：</strong>LLM 推薦不存在的程式套件名稱，遭駭客搶註同名惡意軟體導致安裝中毒。</li>
+              <li><strong>檢核要求（4.3.4–4.3.6）：</strong>記錄訓練與存取資料範疇，確保公開與 API 服務絕不輸入個資或機密。</li>
+            </ul>
+          </div>
+
+          <div class="figure-card">
+            <span class="index-num" style="margin-bottom: var(--space-sm);">人工智慧基本法</span>
+            <h3 class="sub-heading">教師使用 AI 必須掌握的七大治理原則</h3>
+            <div class="table-wrap" style="border: none;">
+              <table class="dossier-table">
+                <tbody>
+                  <tr>
+                    <td><strong>01 永續發展與福祉</strong></td>
+                    <td>確保 AI 應用促進教育正向發展、師生福祉與數位平權。</td>
+                  </tr>
+                  <tr>
+                    <td><strong>02 人類自主</strong></td>
+                    <td>堅持「人為本」，AI 不得取代教師教學決策與學生思考主體性。</td>
+                  </tr>
+                  <tr>
+                    <td><strong>03 隱私保護與資料治理</strong></td>
+                    <td>落實個資不入公開模型，建立資料權限分級與品質控管。</td>
+                  </tr>
+                  <tr>
+                    <td><strong>04 資訊安全與安全</strong></td>
+                    <td>防範提示注入、模型攻擊與年齡不適切內容接觸。</td>
+                  </tr>
+                  <tr>
+                    <td><strong>05 透明與可解釋</strong></td>
+                    <td>明確標註「AI 協作生成」，理解模型輸出限制與資料來源。</td>
+                  </tr>
+                  <tr>
+                    <td><strong>06 公平與不歧視</strong></td>
+                    <td>防範演算法偏見與教育落差，保障特殊需求學生支持權益。</td>
+                  </tr>
+                  <tr>
+                    <td><strong>07 問責</strong></td>
+                    <td>保留人類最終監督責任，使用者須能說明查證依據與修改歷程。</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 06: TEACHER GROWTH PATHWAY & ACTION CHECKLIST -->
+      <section id="growth" class="narrative-section">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">06 專業成長</span>
+            <span class="dossier-meta">PROFESSIONAL GROWTH · 教師專業發展路徑與自我檢核</span>
+          </div>
+          <span class="dossier-meta">可儲存・可匯出之實踐工作台</span>
+        </div>
+
+        <h2 class="section-heading">教師 AI 專業成長三階路徑與校本實踐自我檢核表</h2>
+        <p class="section-lead">
+          從個人建立 AI 學習習慣、參與跨校與領域共備社群，到主導校本 AI 使用規範與行動研究。勾選下方各項檢核指標，即時檢視您的教學準備度，並可跨工作階段自動儲存或匯出個人檢核報告。
+        </p>
+
+        <!-- 3 Stages Growth Cards -->
+        <div class="zone-grid" style="margin-bottom: var(--space-lg);">
+          <div class="figure-card">
+            <span class="tag tag-slate">階段 3-1｜取得理解</span>
+            <h3 class="sub-heading" style="margin-top: var(--space-sm);">探索工具・共讀指引</h3>
+            <p class="prose" style="font-size: 0.9rem; margin-bottom: 0;">
+              進行 AI 素養自我診斷、建立個人 AI 學習習慣、參與研習辨識適用學科任務（如酷英網英語口說），並理解教師在人機協作時代的專業角色轉型。
+            </p>
+          </div>
+          <div class="figure-card">
+            <span class="tag tag-gold">階段 3-2｜深化應用</span>
+            <h3 class="sub-heading" style="margin-top: var(--space-sm);">社群共備・數據反思</h3>
+            <p class="prose" style="font-size: 0.9rem; margin-bottom: 0;">
+              在共備社群交流多輪對話（Iterative Prompting）優化教案，運用 AI 模擬教學情境與學習數據診斷斷點，透過「設計—實施—反思」循環強化對特殊需求學生之支持。
+            </p>
+          </div>
+          <div class="figure-card">
+            <span class="tag tag-green">階段 3-3｜創造轉型</span>
+            <h3 class="sub-heading" style="margin-top: var(--space-sm);">校本規範・行動研究</h3>
+            <p class="prose" style="font-size: 0.9rem; margin-bottom: 0;">
+              與校內課發會、資訊組、教務處協作訂定校本 AI 應用與倫理規範（含作業標示與評量原則）；推動實踐社群整理失敗與修正經驗，發表 AI 教學研究或課程模組。
+            </p>
+          </div>
+        </div>
+
+        <!-- Interactive Checklist & Readiness Chart -->
+        <div class="split-layout--sidebar split-layout">
+          <div class="figure-card">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+              <div>
+                <h3 class="sub-heading" style="margin-bottom: 2px;">課堂與專業實踐檢核工作台</h3>
+                <span id="checklist-summary-meta" class="dossier-meta">已完成 0 / 12 項實踐指標</span>
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+                <button type="button" class="btn btn-primary" onclick="exportChecklistReport()">匯出檢核報告</button>
+                <button type="button" class="btn" id="btn-reset-checklist" onclick="resetChecklistProgress(this)">重設檢核紀錄</button>
+              </div>
+            </div>
+
+            <div id="checklist-container" class="checklist-group">
+              <!-- Populated by JS -->
+            </div>
+            <div id="checklist-status-banner" class="status-banner" role="status" aria-live="polite"></div>
+          </div>
+
+          <div class="figure-card">
+            <span class="index-num" style="margin-bottom: var(--space-sm);">即時準備度雷達／進度分佈</span>
+            <h3 class="sub-heading">四大實踐構面達成率</h3>
+            <p class="prose" style="font-size: 0.88rem; color: var(--on-surface-variant);">
+              勾選左側檢核項目後，下圖將即時反映您在「法遵與資安」、「課堂紅黃綠燈」、「慢 AI 教學設計」及「專業社群轉型」的落實程度。
+            </p>
+            <div class="chart-box">
+              <canvas id="readiness-chart" aria-label="四大實踐構面達成率長條圖"></canvas>
+            </div>
+            <div class="aside-box" style="margin-top: var(--space-md); padding: var(--space-sm) var(--space-md);">
+              <span class="dossier-meta" style="display: block; margin-bottom: var(--space-xs);">地方與學校支持系統階段</span>
+              <p style="margin: 0; font-size: 0.875rem; line-height: 1.5;">
+                依據《數位教學指引 3.0》，支持系統依序經歷<strong>發展期</strong>（硬體統籌與數位學習推動辦公室）、<strong>加速期</strong>（跨區領域輔導團與自主增能社群）邁向<strong>成熟期</strong>（跨校數據分析應用與行政減量數位轉型）。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- SOURCES FOOTER -->
+    <footer style="margin-top: var(--space-3xl); padding-top: var(--space-lg); border-top: var(--section-rule);">
+      <div class="dossier-bar" style="border-bottom: none; margin-bottom: var(--space-xs);">
+        <span class="dossier-pill">資料來源說明 SOURCES</span>
+        <span class="dossier-meta">編彙自筆記本提供之政策與實務文獻</span>
+      </div>
+      <p class="prose" style="font-size: 0.875rem; color: var(--on-surface-variant); max-width: 85ch; margin-bottom: 0;">
+        本互動導覽內容彙整自：《115 年中小學教師數位與 AI 教學指引（v1150908）》、《教育部中小學數位教學指引 3.0 版（1130822）》、中小學生成式 AI 之學習應用手冊國小版《我和 AI 一起學》與國高中版《駕馭 AI，洞察未來：數位公民的必修課》、數位發展部《2025 公部門人工智慧應用參考手冊》、《新北市行政減量 AI 手冊》，以及林穎俊教師《生成式 AI 應用於教學（2024 夏季版）》教學設計實務範例。
+      </p>
+    </footer>
+  </div>
+
+  <api-shim></api-shim>
+
+  <script>
+    /* =====================================================================
+       1. DATA MODELS (Backtick literals only, zero trailing commas)
+       ===================================================================== */
+    const POLICY_TIMELINE = [
+      {
+        year: `111 年（2022）`,
+        title: `《中小學數位教學指引 1.0 版》啟動基礎數位素養`,
+        tag: `基礎建置與數位平權`,
+        summary: `教育部配合十二年國教課綱與「中小學數位學習精進方案」，提出數位素養面向與內涵，確立科技輔助自主學習與因材網等數位平臺的基礎應用架構。`,
+        highlights: [
+          `確立「數位科技輔助教師教學」與「融入學科學習」雙軌並進模式。`,
+          `依教育部居家線上學習指引精神，明訂國中小注視螢幕時間以每節課二分之一（1/2）為原則，兼顧學生視力與身心發展。`,
+          `啟動中央、地方與學校三層級支持系統，鼓勵縣市成立數位學習推動辦公室。`
+        ]
+      },
+      {
+        year: `112 年（2023）`,
+        title: `《中小學數位教學指引 2.0 版》回應生成式 AI 浪潮`,
+        tag: `生成式 AI 導入教學`,
+        summary: `因應 2022 年底 ChatGPT 問世帶來的教育衝擊，2.0 版率先協助教師運用生成式 AI 規劃備課與教學活動，並培養學生使用生成式 AI 的基本判斷力。`,
+        highlights: [
+          `引導教師將生成式 AI 作為教材草擬、問題設計與差異化教學輔助工具。`,
+          `強調生成式 AI 產出僅能作為「初稿」，教師與學生須保持事實查核與批判監督意識。`,
+          `對接國際組織對 AI 風險與倫理議題之初期規範，提醒不可盲信 AI 生成內容。`
+        ]
+      },
+      {
+        year: `113 年（2024）`,
+        title: `《數位教學指引 3.0 版》與親師生生態系成形`,
+        tag: `AIPACK × 四學 × 多元示例`,
+        summary: `同步發布《數位教學指引 3.0 版》、《校長數位學習領導指引》與《家長數位學習知能指引》，納入試行 AI 應用教案示例，系統化形塑從學校到家庭的數位轉型生態。`,
+        highlights: [
+          `提出從 TPACK 擴展至 AIPACK（AI 知識＋教學知識＋學科知識）的教師專業知能藍圖。`,
+          `全面示範「四學模式」（學生自學、組內共學、組間互學、教師導學）結合因材網、酷英網與 AI 工具。`,
+          `建立地方與學校「發展期 → 加速期 → 成熟期」支持矩陣，明訂審慎使用 AI 偵測工具並採多元評量。`
+        ]
+      },
+      {
+        year: `114–115 年（2025–2026）`,
+        title: `《115 年數位與 AI 教學指引》× 分齡手冊 × 公部門資安實務`,
+        tag: `AI 代理人治理・慢 AI・認知防禦`,
+        summary: `針對生成式 AI 與人工智慧代理人（AI Agent）普及後的「認知卸載（Cognitive Offloading）」挑戰，建立完整的師生 4×3 AI 素養框架、課堂紅黃綠燈規範、WISE 媒體識讀與《人工智慧基本法》七原則。`,
+        highlights: [
+          `實徵區分通用型 AI 與教育型 AI（如因材網 e 度採蘇格拉底式「慢 AI」），證實教育型 AI 更能提升學習成效。`,
+          `配套發行國小《我和 AI 一起學》與國高中《駕馭 AI，洞察未來》手冊，落實分齡安全協作。`,
+          `整合數發部《2025 公部門 AI 應用參考手冊》資安檢核，嚴防提示注入、個資外洩與資料污染風險。`
+        ]
+      }
+    ];
+
+    const LITERACY_DATA = {
+      teacher: [
+        {
+          dimension: `01｜AI 倫理`,
+          subtitle: `守護人本價值、隱私與學術誠信`,
+          levels: {
+            1: `理解《人工智慧基本法》七原則與 AI 偏見、隱私、版權困境；確保不在公開生成式 AI 輸入師生個資與機敏資料。`,
+            2: `與學生透過「觀點取替」共同訂定班級紅黃綠燈公約，能審查 AI 產出是否存在偏誤或幻覺，落實人工最終監督責任。`,
+            3: `參與制定校本 AI 教學應用與倫理規範（含作業標示「AI 協作生成」與評量原則），引領社群實踐以人為中心的 AI 教育。`
+          }
+        },
+        {
+          dimension: `02｜AI 基礎與技術`,
+          subtitle: `區辨模型類型與教育型工具`,
+          levels: {
+            1: `認識判別式與生成式 AI 及多模態輸出型態；了解 AI 代理人（Agent）的任務拆解能力與邊界，優先選用教育型 AI。`,
+            2: `掌握精準提示策略（角色、脈絡、任務、限制），透過多輪對話（Iterative Prompting）優化教材，並識別資安風險。`,
+            3: `能靈活選用組合或設計 AI 應用程式與人工智慧代理人流程，建立資料權限分級與人工確認關鍵節點。`
+          }
+        },
+        {
+          dimension: `03｜AI 賦能教學`,
+          subtitle: `從工具輔助進化為學習設計師`,
+          levels: {
+            1: `辨識適合導入 AI 的學科任務（3-1-1），利用 AI 減輕備課與草稿負擔，同時在「設計—實施—反思」中維持專業決定權（3-1-3）。`,
+            2: `運用 AIPACK 整合策略進行以學生為中心的差異化教學（3-2-2），結合因材網診斷數據引導學生適性修正，防範認知卸載。`,
+            3: `定義「教師—AI—學生」動態互動模式（3-3-2），設計跨學科探究與專題任務，建立師生機正向回饋循環（3-3-3）。`
+          }
+        },
+        {
+          dimension: `04｜AI 促進專業發展`,
+          subtitle: `社群共備與組織學習文化`,
+          levels: {
+            1: `進行 AI 素養自我診斷，建立個人 AI 學習習慣，理解教師從知識傳授者轉型為「導學者」與「學習設計師」。`,
+            2: `參與校內與跨校 AI 共備社群，運用 AI 模擬教學情境、分析學習數據，持續交流選用工具的優缺點與失敗修正經驗。`,
+            3: `運用 AI（如 RAG 知識庫）整理共備成果與學生學習證據，發表 AI 教學行動研究或課程模組，形塑學校組織學習文化。`
+          }
+        }
+      ],
+      student: [
+        {
+          dimension: `01｜AI 倫理（表 2-2）`,
+          subtitle: `維持人本判斷、誠信與隱私保護`,
+          levels: {
+            1: `理解 AI 倫理困境，具備對 AI 產出的批判思考，思辨 AI 應用中的價值取捨，覺察人類在科技中的主體價值。`,
+            2: `落實班級與學術 AI 使用規範與責任，正用 AI 符合學術誠信（標註協作、不直接貼上宣稱原創），堅持保護個人與他人隱私。`,
+            3: `能構思 AI 設計倫理內涵，在專題中建構與 AI 協作的設計倫理，並將負責任的設計與驗證態度深化為日常習慣。`
+          }
+        },
+        {
+          dimension: `02｜AI 基礎與技術（表 2-2）`,
+          subtitle: `理解原理限制與優化人機對話`,
+          levels: {
+            1: `理解 AI 運作原理與限制（如機率生成與幻覺現象），能連結 AI 服務與背後訓練資料來源，對 AI 世界產生好奇心。`,
+            2: `實踐 AI 強化運算思維，能運用包含角色與限制的提示詞優化 AI 互動，並根據任務調整與 AI 協作的適應力。`,
+            3: `理解人工智慧代理人的工作流程與資料邊界，能針對複雜問題拆解步驟，在人機協作中不斷回到自身進行評估。`
+          }
+        },
+        {
+          dimension: `03｜AI 賦能學習`,
+          subtitle: `以「慢 AI」促進提問與自我調節`,
+          levels: {
+            1: `將教育型 AI 視為虛擬學伴或提問者，透過「請舉生活例子教我」釐清專有名詞，維持學習主體性。`,
+            2: `展現「情境工程」能力，提供充分脈絡向 AI 尋求提示與錯題分析，用自己的話完成筆記並進行跨來源事實查核。`,
+            3: `主動運用 AI 協助設定學習計畫與延伸探究問題，檢核自身認知轉變（「原本以為…後來發現…」），完成自主與合作學習。`
+          }
+        },
+        {
+          dimension: `04｜AI 系統設計`,
+          subtitle: `從使用者走向以人為本的設計者`,
+          levels: {
+            1: `觀察生活中的 AI 應用如何解決問題，理解系統輸入、處理與輸出邏輯，培養探究思考與問題覺察能力。`,
+            2: `在跨領域專題與實驗設計中，規劃人類與 AI 各自負責的任務節點，能針對 AI 建議進行除錯與邏輯檢驗。`,
+            3: `運用 AI 協作進行創作表達與專題系統設計，在未來社會中參與形塑以人為中心、公平且負責任的科技發展。`
+          }
+        }
+      ]
+    };
+
+    const TRAFFIC_SCENARIOS = [
+      {
+        id: 0,
+        subject: `國小自然｜檢驗二氧化碳實驗`,
+        behavior: `「老師，我們這組的澄清石灰水沒有變混濁！我們向因材網 e 度描述我們的實驗步驟，請問 e 度可能是在哪個步驟出問題、可以怎麼除錯？」`,
+        answer: `green`,
+        explanation: `這是【綠燈區】的優良探究行為！學生先動手進行實驗，遇到困難時向教育型 AI（e 度）描述現況尋求「除錯方向」與替代日常收集氣體的點子，而非要求 AI 直接生成實驗結果。`,
+        perspective: `如果實驗還沒做就讓 AI 直接產生實驗結果與結論報告，我們還會發現自己操作步驟哪裡漏氣嗎？`
+      },
+      {
+        id: 1,
+        subject: `國中英語｜Welcome to Bangkok 閱讀課`,
+        behavior: `「小組討論曼谷行程時間軸時，我們請 AI 協助彙整各組員意見並整理成架構，並在簡報上標註『AI 協作生成』，最後由組員共同修改潤飾且能口頭上台說明。」`,
+        answer: `yellow`,
+        explanation: `這是【黃燈區】的合規協作！AI 協助彙整資訊與結構建議是被允許的，但必須滿足「標註 AI 協作生成」、「進行人工修改潤飾」及「能口頭說明證明知識已內化」三項條件。`,
+        perspective: `若直接要求 AI 翻譯整篇課文或給出閱讀理解測驗答案，會怎樣影響我們獨立閱讀外語文章的能力？`
+      },
+      {
+        id: 2,
+        subject: `國中數學｜三心診斷測驗課後訂正`,
+        behavior: `「我在三心診斷測驗錯了第 4 題，因為想趕快寫完作業，所以我直接拍題目傳給公開的生成式 AI，請它給我正確選項跟完整算式，直接抄在訂正本上。」`,
+        answer: `red`,
+        explanation: `這是【紅燈區】的禁止行為（答案外包與認知卸載）！正確做法應是寫出自己原本卡住的地方，並請 e 度「不要直接給答案，先幫我判斷可能混淆哪個概念，再出一題類似題讓我練習」。`,
+        perspective: `只抄寫 AI 算式雖然作業很快完成，但下次段考沒有 AI 時，我們真的掌握外心、內心與重心的差異了嗎？`
+      },
+      {
+        id: 3,
+        subject: `高中電機｜電感器串並聯計算與互感`,
+        behavior: `「我們請 e 度針對『電感器的串並聯計算』出 3 題選擇題並給予解析，做完後我們對比課本公式，並親手驗算檢查 e 度提供的解析數值是否有誤差。」`,
+        answer: `green`,
+        explanation: `這是【綠燈區】的自主檢測與驗證精神！高中指引特別提醒：AI 產出的數學與電學數值可能存在誤差（幻覺），學生運用 AI 出題互考並「親手計算驗證解析正確性」，正體現了人類監督責任。`,
+        perspective: `為什麼即使 AI 解析寫得頭頭是道，我們仍必須養成親手驗算與對照課本的習慣？`
+      },
+      {
+        id: 4,
+        subject: `班級日常｜公開生成式 AI 工具使用`,
+        behavior: `「同學想請公開聊天機器人幫忙撰寫運動會分組名單與鼓勵評語，於是將全班同學的真實姓名、座號與大頭照一併上傳到免費的公開 AI 網站。」`,
+        answer: `red`,
+        explanation: `這是【紅燈區】的嚴重隱私違規！《115 年指引》與《數發部公部門 AI 應用手冊》均嚴禁將自己、同學或教師的姓名、照片及機敏個資輸入公開或外部 API 串接的生成式 AI 服務。`,
+        perspective: `把同學的照片與個資輸入外部 AI 系統後，這些資料可能被留存或用於訓練模型，我們該如何保護自己與他人的數位隱私？`
+      },
+      {
+        id: 5,
+        subject: `分組報告｜組間互學與發表審查`,
+        behavior: `「報告上台前，我們先用 e 度檢視簡報內容是否遺漏重點，並請它扮演聽眾設計兩個追問；至於是否採納 e 度的修改建議，由小組討論後決定並說明理由。」`,
+        answer: `yellow`,
+        explanation: `符合【黃燈區】（含綠燈精神）的協作界線！讓 AI 協助檢核完整性與模擬追問可讓互評更聚焦，但關鍵在於「是否採用須由小組判斷並說明理由」，絕不可讓 AI 代寫整份發表稿或決定他組好壞。`,
+        perspective: `如果連同學提問都交給 AI 即時回答，課堂上的真實對話與思辨還有意義嗎？`
+      }
+    ];
+
+    const TEACHING_PHASES = [
+      {
+        title: `課前備課階段｜AIPACK 學習設計師`,
+        summary: `教師根據學科本質、班級程度與學生身心發展篩選工具（優先選用因材網、酷英網等教育型平臺），並透過多輪對話產出適性化教材草稿與分層引導語。`,
+        tasks: [
+          `設定 AI 代理人：先分析文本難度，再產出差異化閱讀測驗，最後列出每題對應的學習目標供教師檢核。`,
+          `設計初階與進階提示語範例（如國中英語閱讀課文），為不同程度學生預備適性學習鷹架。`,
+          `規劃注視螢幕時間（國中小每節課不超過 1/2），確保實體討論與動手實驗比重。`
+        ]
+      },
+      {
+        title: `課中「四學」實施｜慢 AI 蘇格拉底導學`,
+        summary: `依循「學生自學 → 組內共學 → 組間互學 → 教師導學」架構，將教育型 AI 嵌入關鍵思考節點，促進深度理解而非替代思考。`,
+        tasks: [
+          `學生自學：觀看因材網影片並完成學習筆記，利用 e 度釐清專有名詞與進行概念澄清。`,
+          `組內共學：動手設計實驗（如檢驗二氧化碳），遭遇困難時向 e 度尋求除錯思路與假設檢驗。`,
+          `組間互學：使用互評表或 e 度檢視他組實驗結論是否符合「科學解釋」邏輯，並由學生口頭回應。`,
+          `教師導學：歸納澄清迷思概念，展現優秀與不佳的 Prompt 對話紀錄，引導學生反思提問策略。`
+        ]
+      },
+      {
+        title: `課後評量與行政減量｜多元評量與專屬顧問`,
+        summary: `避免過度依賴容易誤判的「AI 內容偵測工具」，改採錯題反思、學習歷程記錄與多維度 Rubrics 評量；同時運用 AI 減輕行政與數據整理負荷。`,
+        tasks: [
+          `錯題補強與學習總結：學生請 e 度協助整理錯題混淆概念並產出類題練習，撰寫「原本以為…後來發現…」的認知轉變。`,
+          `多元評量設計：結合合作、上台發表、問題解決與概念理解 4 面向設計 Rubrics 評量規準。`,
+          `行政減量增幅：運用 NotebookLM 與 RAG 技術建立校本資料庫（如學力檢測題本分析），協助教師快速掌握班級錯誤熱點。`
+        ]
+      }
+    ];
+
+    const PROMPT_PRESETS = {
+      group_role: {
+        role: `專業的小學自然科學老師`,
+        task: `針對「如何找到北極星（或環境保護）」分組討論主題，將每組 4 位學生依照 Summarizer（摘要者）、Questioner（提問者）、Clarifier（澄清者）、Predictor（預測者）設計不同且具體的學習任務`,
+        format: `用小學生容易理解的語言，以清晰表格呈現每位角色的任務說明與做到標準`
+      },
+      rubrics: {
+        role: `具備評量設計專長的自然科學教師`,
+        task: `設計一份展現學生對「人體骨骼（或單元核心概念）」理解程度的多元評量 Rubrics`,
+        format: `包含「合作」、「上台發表」、「問題解決」與「概念理解」四個面向，分層級彙整成結構化表格`
+      },
+      slow_tutor: {
+        role: `遵循「慢 AI」原則的教育型學科學習夥伴`,
+        task: `協助學生分析診斷測驗中的錯題盲點（例如三角形三心概念或電感串並聯計算），診斷可能混淆的先備概念並生成 1 題類似題供練習`,
+        format: `先給予思考提示與生活化比喻，待學生回答後再提供解析與下一題挑戰`
+      },
+      diff_reading: {
+        role: `資深雙語閱讀課程設計師`,
+        task: `分析《Welcome to Bangkok》閱讀文本結構，為不同英語程度學生分別產出「初階字彙脈絡引導」與「進階段落功能解析（What is each paragraph doing?）」`,
+        format: `逐段條列重點引導問題與延伸探究題，並保留學生自行總結的空格`
+      },
+      admin_rag: {
+        role: `學校教務與教學輔導專屬 AI 顧問`,
+        task: `依據上傳的縣市學生學習能力檢測報告與課綱教材內容，分析學生普遍錯誤的知識點並提出具體補救教學與共備調整建議`,
+        format: `分點列出高錯誤率概念、可能迷思成因、對應教學活動建議與待人工確認事項`
+      }
+    };
+
+    const GRADE_CONTEXT = {
+      elem: `國小階段（使用淺顯白話、生活化比喻，確保學童能用自己的話復述）`,
+      junior: `國中階段（強調因果推理、文本結構分析與「AI 協作生成」標註習慣）`,
+      senior: `高中／職階段（強調跨科邏輯推導、實驗數值親手驗算與自主探究）`
+    };
+
+    const GUARDRAIL_RULES = {
+      socratic: `【慢 AI 限制條件】嚴禁直接給出標準答案、完整譯文或整份報告稿；必須採用蘇格拉底提問法，每次只引導一個關鍵思考步驟。`,
+      check: `【教師檢核條件】請在每個生成項目後方，標註對應的單元學習目標與「教師／學生須人工查核事項」，供教學者審查修正。`,
+      step: `【結構化輸出條件】請務必以清晰表格或分步驟編號呈現，並提示使用者不可輸入任何真實姓名或個資。`
+    };
+
+    const SEVEN_RISKS = [
+      {
+        id: 0,
+        code: `風險 01｜錯假訊息吸收`,
+        principle: `STEP 原則（Stop, Think, Evaluate, Prove）`,
+        wise: `思・辨`,
+        mechanism: `學生可能將未經查證的 AI 產出或演算法放大的片面資訊視為正確知識，混淆「錯誤資訊（誤解或過時）」與「假訊息（刻意誤導詐騙）」。`,
+        defense: [
+          `建立「不直接相信」的態度：認知 AI 回答只是參考初稿，並非標準答案。`,
+          `學會來源交叉比對：檢查作者、日期、引用依據，至少比對 2 至 3 個不同可靠來源後再引用。`,
+          `辨識多模態假訊息：認識深偽影片（Deepfake）、AI 語音詐騙、假圖片與虛構文獻。`,
+          `保留人類監督責任：能說明 AI 協助了什麼、自己查證與修正了什麼。`
+        ]
+      },
+      {
+        id: 1,
+        code: `風險 02｜認知卸載（Cognitive Offloading）`,
+        principle: `THINK 原則（保留思考主體性）`,
+        wise: `思・人`,
+        mechanism: `過度將閱讀摘要、解題推理、寫作構思「外包」給生成式 AI 與代理人，導致「虛假精熟」並削弱高階思辨、記憶與自主解決問題的能力。`,
+        defense: [
+          `明確設定任務邊界：要求學生先提出自己的初步假設或解題卡點，才能向 AI 尋求提示。`,
+          `課堂實施「慢 AI」提問規則：要求 AI 給線索而非給答案，並以口頭說明驗證內化。`,
+          `推動「觀點取替」討論：思辨「如果全交給 AI 做，我們最後會失去什麼能力？」。`
+        ]
+      },
+      {
+        id: 2,
+        code: `風險 03｜AI 幻覺與演算法偏見`,
+        principle: `FACT 原則（事實查核與偏誤覺察）`,
+        wise: `辨・人`,
+        mechanism: `大型語言模型依據機率預測生成內容，可能產出看似合理實則錯誤的「幻覺」（如虛構文獻、錯誤電學算式），或複製訓練資料中的性別、文化與立場偏見。`,
+        defense: [
+          `理化與數學數值必須親手計算驗證，不可照單全收 AI 解析。`,
+          `檢視 AI 回應是否隱含刻板印象或單一文化視角，主動引導多元觀點討論。`,
+          `比對課本核心概念與權威資料庫，揪出 AI 編造的參考資料與連結。`
+        ]
+      },
+      {
+        id: 3,
+        code: `風險 04｜資訊同溫層效應`,
+        principle: `OPEN 原則（跨視角探索與開放思辨）`,
+        wise: `思・辨`,
+        mechanism: `演算法推薦機制與迎合使用者偏好的對話模式，容易不斷強化既有立場，使學生接觸片面觀點並限縮公共議題的理解廣度。`,
+        defense: [
+          `刻意練習「反方提問」：請 AI 提出相反立場的論據，再由學生評估雙方證據強弱。`,
+          `搭配多樣化實體閱讀與分組互學，打破單一演算法餵養的信息環境。`
+        ]
+      },
+      {
+        id: 4,
+        code: `風險 05｜隱私外洩與 AI 資安風險`,
+        principle: `SAFE 原則 × 數發部資安防線`,
+        wise: `安`,
+        mechanism: `師生將姓名、照片、成績或機密資料輸入公開 AI；或面臨提示注入（Prompt Injection）、內部資料庫污染提供詐騙連結、以及 LLM 虛構套件名稱引發的惡意軟體風險。`,
+        defense: [
+          `嚴守數發部 4.3.6 檢核：絕不在公開或外部 API 串接之生成式 AI 提供個人訊息與機密資料。`,
+          `建立資料存取權限分級，對 AI 提供的外部連結與程式碼保持人工審查，不直接安裝未經確認的套件。`,
+          `優先選用通過教育資安評估之教育型平臺（如因材網、酷英網）。`
+        ]
+      },
+      {
+        id: 5,
+        code: `風險 06｜教育工具化與師生疏離`,
+        principle: `HUMAN 原則（以人為本的教育核心）`,
+        wise: `人`,
+        mechanism: `過度追求 AI 自動化批改、測驗產出與偵測軟體判讀，將豐富的學習歷程簡化為效率與分數計算，忽略社會情緒學習（SEL）與師生情感交流。`,
+        defense: [
+          `運用 AI 減輕重複性行政工作，將省下的時間轉化為「提升師生情感交流與高品質互動」。`,
+          `審慎使用易生爭議的 AI 生成偵測工具，改以歷程性、實作性與口語發表的「多元評量」取代。`,
+          `確保特殊需求學生在 AI 導入中獲得適性支持，不擴大數位落差。`
+        ]
+      },
+      {
+        id: 6,
+        code: `風險 07｜情感依附錯位`,
+        principle: `CARE 原則（界定人機情感邊界）`,
+        wise: `安・人`,
+        mechanism: `高度擬人化的語音與對話式 AI 容易讓兒童或青少年誤以為 AI 具備真實情感與同理心，進而替代真實同儕友誼或向 AI 過度揭露心理脆弱資訊。`,
+        defense: [
+          `引導學生認識 AI 僅是統計語言模型，不具備真實意識、生命經驗或道德責任。`,
+          `關注學生社會情緒學習（SEL）與真實同儕共學互動，遇到心理困擾時應尋求師長、輔導室與親友支持。`
+        ]
+      }
+    ];
+
+    const CHECKLIST_ITEMS = [
+      { id: `chk_1`, pillar: 0, title: `確認 AI 工具符合年齡適切性與校本資安規範`, desc: `優先選用具備教育鷹架與隱私防護的平臺（如因材網、酷英網）。` },
+      { id: `chk_2`, pillar: 0, title: `落實個資與機敏資料不入公開生成式 AI（數發部 4.3.6）`, desc: `確保自己與學生皆不輸入姓名、照片、成績或未去識別化資料。` },
+      { id: `chk_3`, pillar: 0, title: `完成《人工智慧基本法》七原則自我檢核`, desc: `在教案設計中落實人類自主、透明可解釋、公平不歧視與問責機制。` },
+      { id: `chk_4`, pillar: 1, title: `與班級共同建立課堂「紅黃綠燈」AI 使用公約`, desc: `明確劃分可探索（綠）、須標註查核（黃）與嚴格禁止（紅）行為。` },
+      { id: `chk_5`, pillar: 1, title: `帶領學生進行「觀點取替」思辨討論`, desc: `討論若全交給 AI 代勞將失去何種能力，強化學生以人為中心的主體意識。` },
+      { id: `chk_6`, pillar: 1, title: `建立「AI 協作生成」作業標註與來源交叉比對機制`, desc: `引導學生至少比對 2–3 個來源並說明自身查證與修正依據。` },
+      { id: `chk_7`, pillar: 2, title: `在課堂導入「慢 AI」蘇格拉底提問法而非直接給答案`, desc: `要求 AI 提供概念比喻、除錯方向或學習提示，防範認知卸載。` },
+      { id: `chk_8`, pillar: 2, title: `運用 AIPACK 架構與「四學模式」設計差異化活動`, desc: `整合 AIK、PK 與 CK，並遵守國中小注視螢幕時間不超過每節課 1/2 原則。` },
+      { id: `chk_9`, pillar: 2, title: `設計多元評量取代單一依賴 AI 內容偵測工具`, desc: `納入 Rubrics 評量規準、口頭內化說明與「原本以為…後來發現…」反思。` },
+      { id: `chk_10`, pillar: 3, title: `運用多輪對話（Iterative Prompting）優化教材並參與共備`, desc: `在教學研究會或跨校社群分享教學案例、失敗經驗與修正策略。` },
+      { id: `chk_11`, pillar: 3, title: `利用 AI 進行學習數據診斷或行政減量（如 RAG 知識庫）`, desc: `減輕繁瑣行政與試題分析負荷，將時間回饋給師生情感與專業對話。` },
+      { id: `chk_12`, pillar: 3, title: `設定人工智慧代理人（Agent）權限與關鍵節點人工確認`, desc: `確保代理人協助拆解流程時，教師始終握有學習判斷與評量最終決定權。` }
+    ];
+
+    const PILLAR_NAMES = [
+      `法遵與資安把關`,
+      `課堂紅黃綠燈規範`,
+      `慢 AI 與 AIPACK 設計`,
+      `專業社群與轉型`
+    ];
+
+    /* =====================================================================
+       2. APPLICATION STATE & PERSISTENCE (notebookAppApi)
+       ===================================================================== */
+    let appState = {
+      policyYearIdx: 3,
+      literacyRole: `teacher`,
+      literacyLevel: `all`,
+      scenarioIdx: 0,
+      scenarioAnswers: {},
+      teachingPhaseIdx: 0,
+      riskIdx: 0,
+      checkedIds: []
+    };
+
+    let readinessChartInstance = null;
+
+    async function saveAppState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+          await window.notebookAppApi.setAppState(appState);
+        }
+      } catch (err) {
+        console.warn(`State save skipped:`, err);
+      }
+    }
+
+    async function loadAppState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            if (typeof saved.policyYearIdx === `number`) appState.policyYearIdx = saved.policyYearIdx;
+            if (saved.literacyRole === `teacher` || saved.literacyRole === `student`) appState.literacyRole = saved.literacyRole;
+            if (typeof saved.literacyLevel === `string`) appState.literacyLevel = saved.literacyLevel;
+            if (typeof saved.scenarioIdx === `number`) appState.scenarioIdx = saved.scenarioIdx;
+            if (saved.scenarioAnswers && typeof saved.scenarioAnswers === `object`) appState.scenarioAnswers = saved.scenarioAnswers;
+            if (typeof saved.teachingPhaseIdx === `number`) appState.teachingPhaseIdx = saved.teachingPhaseIdx;
+            if (typeof saved.riskIdx === `number`) appState.riskIdx = saved.riskIdx;
+            if (Array.isArray(saved.checkedIds)) appState.checkedIds = saved.checkedIds;
+          }
+        }
+      } catch (err) {
+        console.warn(`State load skipped:`, err);
+      }
+    }
+
+    /* =====================================================================
+       3. SECTION 01: POLICY TIMELINE RENDERER
+       ===================================================================== */
+    function selectPolicyYear(idx) {
+      appState.policyYearIdx = idx;
+      renderPolicyTimeline();
+      saveAppState();
+    }
+
+    function renderPolicyTimeline() {
+      const idx = Math.max(0, Math.min(POLICY_TIMELINE.length - 1, appState.policyYearIdx));
+      const nodes = document.querySelectorAll(`.timeline-node`);
+      nodes.forEach(function(btn) {
+        const nodeIdx = Number(btn.getAttribute(`data-year-idx`));
+        btn.classList.toggle(`is-selected`, nodeIdx === idx);
+      });
+
+      const item = POLICY_TIMELINE[idx];
+      const box = document.getElementById(`policy-detail-card`);
+      if (!box) return;
+
+      const listHtml = item.highlights.map(function(h) {
+        return `<li>${h}</li>`;
+      }).join(``);
+
+      box.innerHTML = `
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-sm);">
+          <span class="tag tag-gold">${item.year}</span>
+          <span class="tag tag-slate">${item.tag}</span>
+        </div>
+        <h3 class="sub-heading">${item.title}</h3>
+        <p class="prose" style="margin-bottom:var(--space-sm);">${item.summary}</p>
+        <ul class="zone-list">${listHtml}</ul>
+      `;
+    }
+
+    /* =====================================================================
+       4. SECTION 02: LITERACY MATRIX RENDERER
+       ===================================================================== */
+    function setLiteracyRole(role) {
+      appState.literacyRole = role;
+      renderLiteracyMatrix();
+      saveAppState();
+    }
+
+    function setLiteracyLevel(lvl) {
+      appState.literacyLevel = lvl;
+      renderLiteracyMatrix();
+      saveAppState();
+    }
+
+    function renderLiteracyMatrix() {
+      const btnT = document.getElementById(`btn-role-teacher`);
+      const btnS = document.getElementById(`btn-role-student`);
+      const sel = document.getElementById(`literacy-level-select`);
+      if (btnT) btnT.classList.toggle(`btn-active`, appState.literacyRole === `teacher`);
+      if (btnS) btnS.classList.toggle(`btn-active`, appState.literacyRole === `student`);
+      if (sel) sel.value = appState.literacyLevel;
+
+      const container = document.getElementById(`literacy-matrix-container`);
+      if (!container) return;
+
+      const rows = LITERACY_DATA[appState.literacyRole] || LITERACY_DATA.teacher;
+      const lvlFilter = appState.literacyLevel;
+
+      const levelLabels = {
+        1: `層級一｜取得理解`,
+        2: `層級二｜深化應用`,
+        3: `層級三｜創造轉型`
+      };
+
+      container.innerHTML = rows.map(function(row) {
+        const levelsToShow = lvlFilter === `all` ? [`1`, `2`, `3`] : [lvlFilter];
+        const blocksHtml = levelsToShow.map(function(k) {
+          return `
+            <div class="level-block is-lvl-${k}">
+              <span class="level-block-title">${levelLabels[k]}</span>
+              <p>${row.levels[k]}</p>
+            </div>
+          `;
+        }).join(``);
+
+        return `
+          <article class="matrix-card">
+            <div>
+              <h3 class="sub-heading" style="margin-bottom: 2px;">${row.dimension}</h3>
+              <span class="dossier-meta">${row.subtitle}</span>
+            </div>
+            ${blocksHtml}
+          </article>
+        `;
+      }).join(``);
+    }
+
+    /* =====================================================================
+       5. SECTION 03: TRAFFIC LIGHT SIMULATOR
+       ===================================================================== */
+    function jumpToScenario(val) {
+      appState.scenarioIdx = Number(val) || 0;
+      renderScenario();
+      saveAppState();
+    }
+
+    function prevScenario() {
+      appState.scenarioIdx = (appState.scenarioIdx - 1 + TRAFFIC_SCENARIOS.length) % TRAFFIC_SCENARIOS.length;
+      renderScenario();
+      saveAppState();
+    }
+
+    function nextScenario() {
+      appState.scenarioIdx = (appState.scenarioIdx + 1) % TRAFFIC_SCENARIOS.length;
+      renderScenario();
+      saveAppState();
+    }
+
+    function judgeScenario(choice) {
+      const sc = TRAFFIC_SCENARIOS[appState.scenarioIdx];
+      if (!sc) return;
+      appState.scenarioAnswers[String(sc.id)] = choice;
+      renderScenarioFeedback(sc, choice);
+      saveAppState();
+    }
+
+    function renderScenarioFeedback(sc, choice) {
+      const fb = document.getElementById(`sim-feedback-box`);
+      if (!fb) return;
+      if (!choice) {
+        fb.style.display = `none`;
+        fb.innerHTML = ``;
+        return;
+      }
+
+      const zoneNames = {
+        green: `綠燈區`,
+        yellow: `黃燈區`,
+        red: `紅燈區`
+      };
+      const isCorrect = choice === sc.answer;
+      fb.className = `sim-feedback ` + (isCorrect ? `is-correct` : `is-wrong`);
+      fb.style.display = `block`;
+      fb.innerHTML = `
+        <strong>${isCorrect ? `判斷正確：屬於${zoneNames[sc.answer]}` : `再思考一下：本情境屬於${zoneNames[sc.answer]}`}</strong>
+        <p style="margin: var(--space-xs) 0 0; font-size: 0.93rem;">${sc.explanation}</p>
+      `;
+    }
+
+    function renderScenario() {
+      const sc = TRAFFIC_SCENARIOS[appState.scenarioIdx] || TRAFFIC_SCENARIOS[0];
+      const lbl = document.getElementById(`sim-progress-label`);
+      const sel = document.getElementById(`sim-subject-select`);
+      const card = document.getElementById(`sim-scenario-card`);
+      const persp = document.getElementById(`sim-perspective-prompt`);
+
+      if (lbl) lbl.textContent = `題目 ${appState.scenarioIdx + 1} / ${TRAFFIC_SCENARIOS.length}`;
+      if (sel) sel.value = String(appState.scenarioIdx);
+      if (persp) persp.textContent = sc.perspective;
+
+      if (card) {
+        card.innerHTML = `
+          <span class="tag tag-slate">${sc.subject}</span>
+          <div class="sim-scenario-prompt">${sc.behavior}</div>
+        `;
+      }
+
+      const priorChoice = appState.scenarioAnswers[String(sc.id)];
+      renderScenarioFeedback(sc, priorChoice);
+    }
+
+    /* =====================================================================
+       6. SECTION 04: TEACHING PHASES & PROMPT DNA BUILDER
+       ===================================================================== */
+    function selectTeachingPhase(idx) {
+      appState.teachingPhaseIdx = idx;
+      renderTeachingPhase();
+      saveAppState();
+    }
+
+    function renderTeachingPhase() {
+      for (let i = 0; i < 3; i++) {
+        const b = document.getElementById(`phase-btn-${i}`);
+        if (b) b.classList.toggle(`btn-active`, i === appState.teachingPhaseIdx);
+      }
+      const panel = document.getElementById(`teaching-phase-panel`);
+      const item = TEACHING_PHASES[appState.teachingPhaseIdx] || TEACHING_PHASES[0];
+      if (!panel) return;
+
+      const li = item.tasks.map(function(t) {
+        return `<li>${t}</li>`;
+      }).join(``);
+
+      panel.innerHTML = `
+        <h4 style="margin:0 0 var(--space-xs); font-size:1.05rem; color:var(--secondary);">${item.title}</h4>
+        <p class="prose" style="font-size:0.92rem; margin-bottom:var(--space-sm);">${item.summary}</p>
+        <ul class="zone-list">${li}</ul>
+      `;
+    }
+
+    function updatePromptBuilder() {
+      const tSel = document.getElementById(`prompt-template-select`);
+      const gSel = document.getElementById(`prompt-grade-select`);
+      const rSel = document.getElementById(`prompt-guardrail-select`);
+      const tagsBox = document.getElementById(`prompt-dna-tags`);
+      const outBox = document.getElementById(`prompt-output-box`);
+      const copyStatus = document.getElementById(`prompt-copy-status`);
+
+      if (!tSel || !gSel || !rSel || !outBox) return;
+      if (copyStatus) copyStatus.textContent = ``;
+
+      const preset = PROMPT_PRESETS[tSel.value] || PROMPT_PRESETS.group_role;
+      const gradeText = GRADE_CONTEXT[gSel.value] || GRADE_CONTEXT.elem;
+      const ruleText = GUARDRAIL_RULES[rSel.value] || GUARDRAIL_RULES.socratic;
+
+      if (tagsBox) {
+        tagsBox.innerHTML = `
+          <span class="tag tag-slate">DNA 1 角色設定</span>
+          <span class="tag tag-slate">DNA 2 任務描述</span>
+          <span class="tag tag-gold">DNA 3 年段脈絡</span>
+          <span class="tag tag-green">DNA 4 慢 AI 限制條件</span>
+          <span class="tag tag-slate">DNA 5 輸出格式</span>
+        `;
+      }
+
+      const fullPrompt = `你現在是一位${preset.role}。\n\n【教學對象與脈絡】\n適用對象為${gradeText}。\n\n【核心任務目標】\n請${preset.task}。\n\n【限制與把關機制】\n${ruleText}\n\n【輸出格式要求】\n請${preset.format}。`;
+      outBox.textContent = fullPrompt;
+    }
+
+    function copyGeneratedPrompt() {
+      const outBox = document.getElementById(`prompt-output-box`);
+      const status = document.getElementById(`prompt-copy-status`);
+      if (!outBox) return;
+      const text = outBox.textContent || ``;
+
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === `function`) {
+        navigator.clipboard.writeText(text).then(function() {
+          if (status) status.textContent = `已複製提示詞至剪貼簿`;
+        }).catch(function() {
+          if (status) status.textContent = `已選取內容，請使用 Ctrl+C / Cmd+C 複製`;
+        });
+      } else {
+        if (status) status.textContent = `請手動選取上方文字區塊複製`;
+      }
+    }
+
+    /* =====================================================================
+       7. SECTION 05: SEVEN RISKS EXPLORER
+       ===================================================================== */
+    function selectRisk(idx) {
+      appState.riskIdx = idx;
+      renderRiskPanel();
+      saveAppState();
+    }
+
+    function renderRiskPanel() {
+      const idx = Math.max(0, Math.min(SEVEN_RISKS.length - 1, appState.riskIdx));
+      const btns = document.querySelectorAll(`.risk-tab-btn`);
+      btns.forEach(function(btn) {
+        const bIdx = Number(btn.getAttribute(`data-risk-idx`));
+        btn.classList.toggle(`is-active`, bIdx === idx);
+      });
+
+      const panel = document.getElementById(`risk-detail-panel`);
+      const r = SEVEN_RISKS[idx];
+      if (!panel || !r) return;
+
+      const listHtml = r.defense.map(function(d) {
+        return `<li>${d}</li>`;
+      }).join(``);
+
+      panel.innerHTML = `
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-sm);">
+          <span class="tag tag-red">${r.code}</span>
+          <span class="tag tag-green">對應防護：${r.principle}</span>
+          <span class="tag tag-gold">WISE 面向：${r.wise}</span>
+        </div>
+        <h3 class="sub-heading">風險機制與課堂警訊</h3>
+        <p class="prose" style="margin-bottom:var(--space-md);">${r.mechanism}</p>
+        <h4 style="margin:0 0 var(--space-xs); font-size:0.98rem; color:var(--positive);">教師引導與防護對策</h4>
+        <ul class="zone-list">${listHtml}</ul>
+      `;
+    }
+
+    /* =====================================================================
+       8. SECTION 06: TEACHER GROWTH CHECKLIST & CHART.JS
+       ===================================================================== */
+    function toggleCheckItem(id) {
+      const pos = appState.checkedIds.indexOf(id);
+      if (pos === -1) {
+        appState.checkedIds.push(id);
+      } else {
+        appState.checkedIds.splice(pos, 1);
+      }
+      renderChecklist();
+      updateReadinessChart();
+      saveAppState();
+    }
+
+    function resetChecklistProgress(btn) {
+      const banner = document.getElementById(`checklist-status-banner`);
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.classList.add(`btn-warning-arm`);
+        btn.textContent = `再次點擊以確認重設`;
+        if (banner) {
+          banner.textContent = `請再次點擊「再次點擊以確認重設」以清除所有勾選紀錄。`;
+          banner.classList.add(`is-visible`);
+        }
+        return;
+      }
+
+      btn.dataset.armed = `false`;
+      btn.classList.remove(`btn-warning-arm`);
+      btn.textContent = `重設檢核紀錄`;
+      appState.checkedIds = [];
+      renderChecklist();
+      updateReadinessChart();
+      saveAppState();
+      if (banner) {
+        banner.textContent = `已重設所有檢核項目，您可以重新開始記錄實踐進度。`;
+        banner.classList.add(`is-visible`);
+      }
+    }
+
+    function exportChecklistReport() {
+      const banner = document.getElementById(`checklist-status-banner`);
+      const total = CHECKLIST_ITEMS.length;
+      const done = appState.checkedIds.length;
+      const lines = [
+        `中小學數位與 AI 教學實務自我檢核報告`,
+        `已完成指標：${done} / ${total}`,
+        `----------------------------------------`
+      ];
+
+      CHECKLIST_ITEMS.forEach(function(item) {
+        const mark = appState.checkedIds.indexOf(item.id) !== -1 ? `[已完成]` : `[待實踐]`;
+        lines.push(`${mark} (${PILLAR_NAMES[item.pillar]}) ${item.title}`);
+      });
+
+      const reportText = lines.join(`\n`);
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: reportText,
+          contentType: `text/plain`,
+          encoding: `UTF-8`,
+          filename: `k12_ai_teaching_checklist.txt`
+        });
+        if (banner) {
+          banner.textContent = `已匯出檢核報告（k12_ai_teaching_checklist.txt）。`;
+          banner.classList.add(`is-visible`);
+        }
+      } else {
+        const blob = new Blob([reportText], { type: `text/plain;charset=utf-8` });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement(`a`);
+        a.href = url;
+        a.download = `k12_ai_teaching_checklist.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        if (banner) {
+          banner.textContent = `已下載檢核報告（k12_ai_teaching_checklist.txt）。`;
+          banner.classList.add(`is-visible`);
+        }
+      }
+    }
+
+    function renderChecklist() {
+      const container = document.getElementById(`checklist-container`);
+      const meta = document.getElementById(`checklist-summary-meta`);
+      if (!container) return;
+
+      if (meta) {
+        meta.textContent = `已完成 ${appState.checkedIds.length} / ${CHECKLIST_ITEMS.length} 項實踐指標`;
+      }
+
+      container.innerHTML = CHECKLIST_ITEMS.map(function(item) {
+        const isChecked = appState.checkedIds.indexOf(item.id) !== -1;
+        return `
+          <label class="check-item ${isChecked ? `is-checked` : ``}">
+            <input type="checkbox" ${isChecked ? `checked` : ``} onchange="toggleCheckItem('${item.id}')">
+            <span class="check-item-text">
+              <span class="dossier-meta">${PILLAR_NAMES[item.pillar]}</span>
+              <span class="check-item-title">${item.title}</span>
+              <span class="check-item-desc">${item.desc}</span>
+            </span>
+          </label>
+        `;
+      }).join(``);
+    }
+
+    function getThemeToken(name, fallback) {
+      const val = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      return val || fallback;
+    }
+
+    function computePillarPercentages() {
+      const totals = [0, 0, 0, 0];
+      const done = [0, 0, 0, 0];
+      CHECKLIST_ITEMS.forEach(function(item) {
+        totals[item.pillar] += 1;
+        if (appState.checkedIds.indexOf(item.id) !== -1) {
+          done[item.pillar] += 1;
+        }
+      });
+      return totals.map(function(t, i) {
+        return t > 0 ? Math.round((done[i] / t) * 100) : 0;
+      });
+    }
+
+    function updateReadinessChart() {
+      const canvas = document.getElementById(`readiness-chart`);
+      if (!canvas || typeof Chart === `undefined`) return;
+
+      const scores = computePillarPercentages();
+      const data1 = getThemeToken(`--data-1`, `#1f4e5f`);
+      const data2 = getThemeToken(`--data-2`, `#d99000`);
+      const data3 = getThemeToken(`--data-3`, `#2b6e52`);
+      const data4 = getThemeToken(`--data-4`, `#b84a39`);
+      const gridColor = getThemeToken(`--outline-variant`, `#dedad0`);
+      const tickColor = getThemeToken(`--on-surface-variant`, `#56585c`);
+
+      if (readinessChartInstance) {
+        readinessChartInstance.data.datasets[0].data = scores;
+        readinessChartInstance.update();
+        return;
+      }
+
+      readinessChartInstance = new Chart(canvas, {
+        type: `bar`,
+        data: {
+          labels: PILLAR_NAMES,
+          datasets: [
+            {
+              label: `達成率 (%)`,
+              data: scores,
+              backgroundColor: [data1, data2, data3, data4],
+              borderRadius: 4,
+              barThickness: 26
+            }
+          ]
+        },
+        options: {
+          indexAxis: `y`,
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(ctx) {
+                  return `達成率：${ctx.parsed.x}%`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              min: 0,
+              max: 100,
+              grid: { color: gridColor },
+              ticks: {
+                color: tickColor,
+                callback: function(v) { return `${v}%`; }
+              }
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: tickColor }
+            }
+          }
+        }
+      });
+    }
+
+    /* =====================================================================
+       9. BOOTSTRAP & INITIALIZATION
+       ===================================================================== */
+    async function initApp() {
+      await loadAppState();
+
+      renderPolicyTimeline();
+      renderLiteracyMatrix();
+      renderScenario();
+      renderTeachingPhase();
+      updatePromptBuilder();
+      renderRiskPanel();
+      renderChecklist();
+      updateReadinessChart();
+
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        window.lucide.createIcons();
+      }
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
